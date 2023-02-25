@@ -1,55 +1,70 @@
-// Data store
-const currTodos = localStorage.getItem("savedTodos") || [];
-
+// TLDR: Handles updating HTML
+import * as Todos from './todos';
 
 window.onload = function() {
-  if (localStorage.getItem("savedTodos")) {
-    const existingTodos = JSON.parse(localStorage.getItem("savedTodos"));
-    for (let i = 0; i < existingTodos.length; i++) {
-      currTodos.push(existingTodos[i]);
-    }
+  const addButton = document.getElementById('add-todo-btn');
+  const inputField = document.getElementById('new-todo-text');
+
+  addButton.addEventListener('click', function() {
+    Todos.add(inputField.value)
+    inputField.value = 'Enter new Todo.'
+    refreshToDoList();
   }
+    , false);
+
+  Todos.loadSaved();
+
   refreshToDoList();
-  let inputField = document.getElementById("new-todo-text");
 
+  inputField.addEventListener('focus', function() {
 
-  inputField.onfocus = function() {
-    if (inputField.value === "Enter new Todo.") {
-      inputField.value = "";
+    if (inputField.value === 'Enter new Todo.') {
+      inputField.value = '';
     }
-  }
-  // inputField.onblur = function() {
-  //   inputField.value = "Enter new Todo."
-  // }
+  })
 }
 
+function createElementFromToDoItem(todoTitle) {
+
+  const item = document.createElement('li');
+  item.className = 'todo-item';
+  const title = document.createElement('h3');
+  title.innerHTML = todoTitle;
+
+  item.appendChild(title);
+
+  // Create another button for removing
+  const remove = document.createElement('button');
+  remove.setAttribute('type', 'button');
+  remove.innerHTML = 'X';
+  remove.className = 'remove-btn';
+  remove.addEventListener('click', function() {
+    Todos.remove(todoTitle);
+
+    refreshToDoList();
+  }, false)
+
+
+  item.appendChild(remove);
+
+  return item;
+
+}
+
+
 function refreshToDoList() {
-  const todoList = document.getElementsByClassName("todo-list")[0];
+  const todoList = document.getElementsByClassName('todo-list')[0];
 
   todoList.innerHTML = [];
 
-  for (let i = 0; i < currTodos.length; i++) {
-    const todo = currTodos[i];
+  for (const todo of Todos.getCurrentTodos()) {
 
-    const item = document.createElement("li");
-    item.className = "todo-item";
-    item.innerHTML = todo;
+    const item = createElementFromToDoItem(todo);
 
     todoList.appendChild(item);
+
   }
-
 }
 
 
-window.addTodo = function() {
-  const inputField = document.getElementById("new-todo-text");
-  const currentInput = document.getElementById("new-todo-text").value;
-  console.log("adding new item!");
-
-  currTodos.push(currentInput);
-  localStorage.setItem("savedTodos", JSON.stringify(currTodos));
-  refreshToDoList();
-
-  inputField.value = "Enter new Todo."
-}
 

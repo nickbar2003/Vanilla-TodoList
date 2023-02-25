@@ -1,0 +1,20 @@
+
+
+#header {
+  color: whitesmoke;
+  text-align: center;
+}
+
+
+body {
+  background-color: #f59b71;
+}
+
+.todo-list {
+  color: white;
+  text-align: center;
+}
+
+#add-todo {
+  text-align: center;
+}

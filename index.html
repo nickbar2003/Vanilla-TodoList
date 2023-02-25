@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/main.js"></script>
+
+  <h1 id="header">
+    Nick's To-Do list
+  </h1>
+  <ul class="todo-list"></ul>
+
+
+  <div id="add-todo">
+    <input id="new-todo-text" type="text" name="new-todo-text" value="Enter new Todo.">
+    <input onclick="addTodo()" type="button" name="add-new-todo" value="Add">
+  </div>
+
+</body>
+
+</html>
